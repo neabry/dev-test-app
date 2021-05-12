@@ -21,18 +21,11 @@ export const getYoutubeVideos = async (req: Request, res: Response): Promise<voi
       }
     });
 
-    // Check we have an image to return
-    if (data.items.length > 0) {
-      res.status(200).json({
-        status: 200,
-        videos: data.items.map(item => ({ title: item.snippet.title, link: `https://www.youtube.com/watch?v=${item.id.videoId}` })),
-      });
-    } else {
-      res.status(404).json({
-        status: 404,
-        error: "No videos were found relating to query.",
-      });
-    }
+
+    res.status(200).json({
+      status: 200,
+      videos: data.items.map(item => ({ title: item.snippet.title, link: `https://www.youtube.com/watch?v=${item.id.videoId}` })),
+    });
   } catch (e) {
     res.status(500).json({
       status: 500,

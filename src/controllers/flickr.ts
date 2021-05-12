@@ -28,23 +28,14 @@ export const getFlickrPhotos = async (req: Request, res: Response): Promise<void
     // Remove jsonp information
     const json: FlickrEndpoint = JSON.parse(data.replace(/^jsonFlickrFeed\(|\)$/g, ''));
 
-    // Check we have an image to return
-    if (json.items.length > 0) {
+    // Shuffle array
+    shuffleArray(json.items);
+    const medias = json.items.slice(0, 3);
 
-      // Shuffle array
-      shuffleArray(json.items);
-      const medias = json.items.slice(0, 3);
-
-      res.status(200).json({
-        status: 200,
-        media: medias.map(media => media.media.m),
-      });
-    } else {
-      res.status(404).json({
-        status: 404,
-        error: "No image was found relating to tags.",
-      });
-    }
+    res.status(200).json({
+      status: 200,
+      media: medias.map(media => media.media.m),
+    });
   } catch (e) {
     res.status(500).json({
       status: 500,
