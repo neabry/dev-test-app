@@ -30,7 +30,7 @@ export const getYoutubeVideos = async (req: Request, res: Response): Promise<voi
     } else {
       res.status(404).json({
         status: 404,
-        media: "No videos were found relating to query.",
+        error: "No videos were found relating to query.",
       });
     }
   } catch (e) {
