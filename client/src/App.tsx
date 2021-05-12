@@ -10,16 +10,16 @@ import Button from "react-bootstrap/Button";
 import Image from 'react-bootstrap/Image'
 
 interface Results {
-  videos: YouTubeVideo[];
-  media: string[];
+  videos?: YouTubeVideo[];
+  media?: string[];
 }
 
 const App: React.FC = () => {
 
-  const [results, setResults] = React.useState<null | Results>(null);
+  const [results, setResults] = React.useState<Results>({});
   const [searchField, setSearch] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(false);
+  const [error, setError] = React.useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = event.target.value;
@@ -31,22 +31,27 @@ const App: React.FC = () => {
     setLoading(true);
 
     const search = searchField.trim();
-    setError(false);
+    setError("");
+    setResults({});
 
-    try {
-      const thisResults = await Promise.all([
-        getYoutube(search),
-        getFlickr(search),
-      ]);
+    getYoutube(search).then(ytResults => {
+      setResults(prevResults => ({
+        ...prevResults,
+        videos: ytResults
+      }));
+    }).catch(e => {
+      setError(prevError => prevError + "An error occurred in the YouTube API. ");
+    });
 
-      setResults({
-        videos: thisResults[0],
-        media: thisResults[1],
-      })
-    } catch (e) {
-      console.log(e);
-      setError(true);
-    }
+    getFlickr(search).then(flickrResults => {
+      setResults(prevResults => ({
+        ...prevResults,
+        media: flickrResults,
+      }));
+    }).catch(e => {
+      setError(prevError => prevError + "An error occurred in the Flickr API. ");
+    });
+
 
     setLoading(false);
   };
@@ -63,12 +68,12 @@ const App: React.FC = () => {
           <Form.Control
             value={searchField}
             type="text"
-            isInvalid={error}
+            isInvalid={error.length > 0}
             placeholder="Query"
             onChange={event => handleChange(event as any)}
           />
           <Form.Control.Feedback type="invalid">
-            An error occurred.
+            {error}
           </Form.Control.Feedback>
         </Form.Group>
         <Button
@@ -85,7 +90,7 @@ const App: React.FC = () => {
         <>
         <h2>{`Flickr Results`}</h2>
         {results.media.map(image => (
-          <Image src={image} fluid />
+          <Image src={image} fluid rounded />
         ))}
         </>
       )}

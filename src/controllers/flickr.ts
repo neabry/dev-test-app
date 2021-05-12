@@ -22,7 +22,7 @@ export const getFlickrPhotos = async (req: Request, res: Response): Promise<void
     const { data }: AxiosResponse = await axios.get(`https://www.flickr.com/services/feeds/photos_public.gne`, {
       params: {
         format: "json",
-        tags: encodeURIComponent(query),
+        tags: query,
       }
     });
     // Remove jsonp information

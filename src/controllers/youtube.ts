@@ -15,7 +15,7 @@ export const getYoutubeVideos = async (req: Request, res: Response): Promise<voi
       params: {
         part: "snippet",
         maxResults: 25,
-        q: encodeURIComponent(query),
+        q: query,
         key:process.env.YOUTUBE_KEY,
         type: "video",
       }
