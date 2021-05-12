@@ -4,7 +4,7 @@ A quick sample app showing results from Flickr and YouTube's REST APIs.
 
 ## Installing and Running
 
-Create a new file named `.env` in the project root and enter the following (replacing <YT_API_KEY> with your YouTube API key):
+Create a new file named `.env` in the project root and enter the following (replacing `<YT_API_KEY>` with your YouTube API key):
 ```
 YOUTUBE_KEY=<YT_API_KEY>
 ```
