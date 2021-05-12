@@ -42,7 +42,7 @@ export const getFlickrPhotos = async (req: Request, res: Response): Promise<void
     } else {
       res.status(404).json({
         status: 404,
-        media: "No image was found relating to tags",
+        media: "No image was found relating to tags.",
       });
     }
   } catch (e) {
