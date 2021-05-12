@@ -1,6 +1,6 @@
 # Dev Test App
 
-A quick sample app showing results from Flickr and YouTube's REST APIs.
+A quick sample Express and React app written in TypeScript showing results from Flickr and YouTube's REST APIs.
 
 ## Installing and Running
 
