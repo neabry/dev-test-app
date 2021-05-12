@@ -82,9 +82,20 @@ const App: React.FC = () => {
       </Form>
       <br />
       {results && results.media && (
-        results.media.map(image => (
+        <>
+        <h2>{`Flickr Results`}</h2>
+        {results.media.map(image => (
           <Image src={image} fluid />
-        ))
+        ))}
+        </>
+      )}
+      {results && results.videos && (
+        <>
+        <h2>{`YouTube Results`}</h2>
+        {results.videos.map(video => (
+          <a href={video.link}>{video.title}</a>
+        ))}
+        </>
       )}
       </Container>
     </div>
