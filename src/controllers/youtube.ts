@@ -18,6 +18,7 @@ export const getYoutubeVideos = async (req: Request, res: Response): Promise<voi
         q: query,
         key:process.env.YOUTUBE_KEY,
         type: "video",
+        videoDuration: "short",
       }
     });
 
