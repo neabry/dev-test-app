@@ -12,14 +12,14 @@ YOUTUBE_KEY=<YT_API_KEY>
 In a terminal, run the following to install and start up the server:
 ```
 npm install
-npm run start
+npm start
 ```
 
 In a separate terminal, run the following to install and start up the React client:
 ```
 cd client
 npm install
-npm run serve
+npm start
 ```
 
 If successful, your browser should open up to `localhost:3000` with the React app running!
