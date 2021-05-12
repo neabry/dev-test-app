@@ -37,7 +37,7 @@ const App: React.FC = () => {
     getYoutube(search).then(ytResults => {
       setResults(prevResults => ({
         ...prevResults,
-        videos: ytResults
+        videos: ytResults.slice(0, 1),
       }));
     }).catch(e => {
       setError(prevError => prevError + "An error occurred in the YouTube API. ");
@@ -46,7 +46,7 @@ const App: React.FC = () => {
     getFlickr(search).then(flickrResults => {
       setResults(prevResults => ({
         ...prevResults,
-        media: flickrResults,
+        media: flickrResults.slice(0, 1),
       }));
     }).catch(e => {
       setError(prevError => prevError + "An error occurred in the Flickr API. ");
@@ -98,7 +98,10 @@ const App: React.FC = () => {
         <>
         <h2>{`YouTube Results`}</h2>
         {results.videos.map(video => (
+          <>
           <a href={video.link}>{video.title}</a>
+          <br />
+          </>
         ))}
         </>
       )}
