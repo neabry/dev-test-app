@@ -23,3 +23,7 @@ npm start
 ```
 
 If successful, your browser should open up to `localhost:3000` with the React app running!
+
+## Linting
+
+In the root directory for linting server code: `npx eslint . --ext .js,.ts`

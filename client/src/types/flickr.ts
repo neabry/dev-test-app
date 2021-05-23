@@ -1,5 +1,5 @@
 export interface FlickrEndpoint {
-  status: number,
-  error?: string,
-  media?: string[],
+  status: number;
+  error?: string;
+  media?: string[];
 }

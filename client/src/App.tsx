@@ -1,13 +1,13 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getFlickr, getYoutube } from './API';
-import { YouTubeVideo } from './types/youtube';
 
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Image from 'react-bootstrap/Image'
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
+import { YouTubeVideo } from './types/youtube';
+import { getFlickr, getYoutube } from './API';
 
 interface Results {
   videos?: YouTubeVideo[];
@@ -15,11 +15,10 @@ interface Results {
 }
 
 const App: React.FC = () => {
-
   const [results, setResults] = React.useState<Results>({});
-  const [searchField, setSearch] = React.useState("");
+  const [searchField, setSearch] = React.useState('');
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState("");
+  const [error, setError] = React.useState('');
 
   // Text box field updating
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,29 +34,29 @@ const App: React.FC = () => {
     // Reset any errors and pre-existing results
     const searchTerm = searchField.trim();
     setSearch(searchTerm);
-    setError("");
+    setError('');
     setResults({});
 
     // YouTube results
     const youtubeProm = getYoutube(searchTerm);
-    youtubeProm.then(ytResults => {
-      setResults(prevResults => ({
+    youtubeProm.then((ytResults) => {
+      setResults((prevResults) => ({
         ...prevResults,
         videos: ytResults.slice(0, 1),
       }));
-    }).catch(e => {
-      setError(prevError => prevError + "An error occurred in the YouTube API. ");
+    }).catch(() => {
+      setError((prevError) => `${prevError}An error occurred in the YouTube API. `);
     });
 
     // Flickr results
     const flickrProm = getFlickr(searchTerm);
-    flickrProm.then(flickrResults => {
-      setResults(prevResults => ({
+    flickrProm.then((flickrResults) => {
+      setResults((prevResults) => ({
         ...prevResults,
         media: flickrResults.slice(0, 1),
       }));
-    }).catch(e => {
-      setError(prevError => prevError + "An error occurred in the Flickr API. ");
+    }).catch(() => {
+      setError((prevError) => `${prevError}An error occurred in the Flickr API. `);
     });
 
     // Re-enable search after both promises complete
@@ -78,7 +77,7 @@ const App: React.FC = () => {
               type="text"
               isInvalid={error.length > 0}
               placeholder="Query"
-              onChange={event => handleChange(event as any)}
+              onChange={(event) => handleChange(event as any)}
             />
             <Form.Control.Feedback type="invalid">
               {error}
@@ -90,32 +89,32 @@ const App: React.FC = () => {
             type="submit"
             onClick={handleSubmit}
           >
-          {loading ? "Loading" : "Submit"}
-        </Button>
-      </Form>
-      <br />
-      {results.media && (
+            {loading ? 'Loading' : 'Submit'}
+          </Button>
+        </Form>
+        <br />
+        {results.media && (
         <div>
-          <h3>{`Flickr Results`}</h3>
-          {results.media.map(image => (
+          <h3>Flickr Results</h3>
+          {results.media.map((image) => (
             <Image src={image} fluid rounded />
           ))}
         </div>
-      )}
-      {results.videos && (
+        )}
+        {results.videos && (
         <div>
-        <h3>{`YouTube Results`}</h3>
-        {results.videos.map(video => (
-          <>
-            <a href={video.link}>{video.title}</a>
-            <br/>
-          </>
-        ))}
+          <h3>YouTube Results</h3>
+          {results.videos.map((video) => (
+            <>
+              <a href={video.link}>{video.title}</a>
+              <br />
+            </>
+          ))}
         </div>
-      )}
+        )}
       </Container>
     </div>
   );
-}
+};
 
 export default App;
