@@ -19,18 +19,17 @@ export const getFlickrPhotos = async (req: Request, res: Response): Promise<void
   const query = req.query.q as string;
 
   try {
-    const { data }: AxiosResponse = await axios.get(`https://www.flickr.com/services/feeds/photos_public.gne`, {
+    const { data }: AxiosResponse<FlickrEndpoint> = await axios.get(`https://www.flickr.com/services/feeds/photos_public.gne`, {
       params: {
         format: "json",
         tags: query,
-      }
+        nojsoncallback: 1, // Remove function wrapper
+      },
     });
-    // Remove jsonp information
-    const json: FlickrEndpoint = JSON.parse(data.replace(/^jsonFlickrFeed\(|\)$/g, ''));
 
     // Shuffle array
-    shuffleArray(json.items);
-    const medias = json.items.slice(0, 3);
+    shuffleArray(data.items);
+    const medias = data.items.slice(0, 3);
 
     res.status(200).json({
       status: 200,

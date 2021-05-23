@@ -3,7 +3,7 @@ import { YouTubeEndpoint } from "../types/youtube";
 import axios, { AxiosResponse } from "axios";
 
 if (!process.env.YOUTUBE_KEY) {
-  console.warn("YOUTUBE_KEY is not defined in .env!");
+  console.warn("YOUTUBE_KEY is not defined in environment variables!");
 }
 
 export const getYoutubeVideos = async (req: Request, res: Response): Promise<void> => {
@@ -16,7 +16,7 @@ export const getYoutubeVideos = async (req: Request, res: Response): Promise<voi
         part: "snippet",
         maxResults: 25,
         q: query,
-        key:process.env.YOUTUBE_KEY,
+        key: process.env.YOUTUBE_KEY,
         type: "video",
         videoDuration: "short",
       }

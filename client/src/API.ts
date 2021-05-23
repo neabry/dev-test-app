@@ -7,7 +7,11 @@ import { YouTubeEndpoint, YouTubeVideo } from "./types/youtube";
  */
 const getYoutube = async (query: string): Promise<YouTubeVideo[]> => {
 
-  const { data } : AxiosResponse<YouTubeEndpoint> = await axios.get(`api/youtube?q=${encodeURIComponent(query)}`);
+  const { data } : AxiosResponse<YouTubeEndpoint> = await axios.get(`api/youtube`, {
+    params: {
+      q: query,
+    },
+  });
 
   return data.videos ?? [];
 }
@@ -17,7 +21,11 @@ const getYoutube = async (query: string): Promise<YouTubeVideo[]> => {
  */
 const getFlickr = async (query: string): Promise<string[]> => {
 
-  const { data } : AxiosResponse<FlickrEndpoint> = await axios.get(`api/flickr?q=${encodeURIComponent(query)}`);
+  const { data } : AxiosResponse<FlickrEndpoint> = await axios.get(`api/flickr`, {
+    params: {
+      q: query,
+    },
+  });
 
   return data.media ?? [];
 }
