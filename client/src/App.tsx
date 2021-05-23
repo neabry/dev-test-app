@@ -21,20 +21,26 @@ const App: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
+  // Text box field updating
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = event.target.value;
     setSearch(val);
   };
 
+  // Handle sending of API request
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setLoading(true);
 
-    const search = searchField.trim();
+    // Reset any errors and pre-existing results
+    const searchTerm = searchField.trim();
+    setSearch(searchTerm);
     setError("");
     setResults({});
 
-    getYoutube(search).then(ytResults => {
+    // YouTube results
+    const youtubeProm = getYoutube(searchTerm);
+    youtubeProm.then(ytResults => {
       setResults(prevResults => ({
         ...prevResults,
         videos: ytResults.slice(0, 1),
@@ -43,7 +49,9 @@ const App: React.FC = () => {
       setError(prevError => prevError + "An error occurred in the YouTube API. ");
     });
 
-    getFlickr(search).then(flickrResults => {
+    // Flickr results
+    const flickrProm = getFlickr(searchTerm);
+    flickrProm.then(flickrResults => {
       setResults(prevResults => ({
         ...prevResults,
         media: flickrResults.slice(0, 1),
@@ -52,8 +60,8 @@ const App: React.FC = () => {
       setError(prevError => prevError + "An error occurred in the Flickr API. ");
     });
 
-
-    setLoading(false);
+    // Re-enable search after both promises complete
+    Promise.all([youtubeProm, flickrProm]).finally(() => setLoading(false));
   };
 
   return (
@@ -63,47 +71,47 @@ const App: React.FC = () => {
           <h1>Dev Test</h1>
         </Jumbotron>
         <Form>
-        <Form.Group controlId="formSearch">
-          <Form.Label>Search query:</Form.Label>
-          <Form.Control
-            value={searchField}
-            type="text"
-            isInvalid={error.length > 0}
-            placeholder="Query"
-            onChange={event => handleChange(event as any)}
-          />
-          <Form.Control.Feedback type="invalid">
-            {error}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Button
-          disabled={loading || searchField.trim().length <= 0}
-          variant="primary"
-          type="submit"
-          onClick={handleSubmit}
-        >
+          <Form.Group controlId="formSearch">
+            <Form.Label>Search query:</Form.Label>
+            <Form.Control
+              value={searchField}
+              type="text"
+              isInvalid={error.length > 0}
+              placeholder="Query"
+              onChange={event => handleChange(event as any)}
+            />
+            <Form.Control.Feedback type="invalid">
+              {error}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Button
+            disabled={loading || searchField.trim().length <= 0}
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit}
+          >
           {loading ? "Loading" : "Submit"}
         </Button>
       </Form>
       <br />
-      {results && results.media && (
-        <>
-        <h2>{`Flickr Results`}</h2>
-        {results.media.map(image => (
-          <Image src={image} fluid rounded />
-        ))}
-        </>
+      {results.media && (
+        <div>
+          <h3>{`Flickr Results`}</h3>
+          {results.media.map(image => (
+            <Image src={image} fluid rounded />
+          ))}
+        </div>
       )}
-      {results && results.videos && (
-        <>
-        <h2>{`YouTube Results`}</h2>
+      {results.videos && (
+        <div>
+        <h3>{`YouTube Results`}</h3>
         {results.videos.map(video => (
           <>
-          <a href={video.link}>{video.title}</a>
-          <br />
+            <a href={video.link}>{video.title}</a>
+            <br/>
           </>
         ))}
-        </>
+        </div>
       )}
       </Container>
     </div>
