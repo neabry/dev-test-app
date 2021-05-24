@@ -32,9 +32,7 @@ Running `npm start` in the root directory will then serve the built client folde
 
 ## Linting
 
-In the root directory for linting server code: `npx eslint . --ext .js,.ts`
-
-In the `client` sub-directory for linting client code: `npx eslint . --ext .js,.ts,.jsx,.tsx`
+Run `npm run lint` in the root or `client` directory to lint that respective part of the project.
 
 ## Testing
 

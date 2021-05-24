@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc && node dist/app.js",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "cross-env NODE_ENV=test jest",
+    "lint": "eslint . --ext .js,.ts"
   },
   "author": "",
   "license": "ISC",
