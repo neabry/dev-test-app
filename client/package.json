@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && shx rm -rf ../public && shx mv build ../public",
+    "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build && shx rm -rf ../public && shx mv build ../public",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx"
@@ -47,6 +47,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.24.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.27.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
