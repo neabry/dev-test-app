@@ -5,7 +5,7 @@ on:
   - pull_request
 
 jobs:
-  install:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -14,10 +14,6 @@ jobs:
     - name: Install client modules
       working-directory: ./client
       run: npm install
-  build:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
     - name: Build server modules
       run: npm run build
     - name: Build client modules
@@ -25,8 +21,13 @@ jobs:
       run: npm run build
   lint:
     runs-on: ubuntu-latest
-    needs: install
     steps:
+    - uses: actions/checkout@v2
+    - name: Install server modules
+      run: npm install
+    - name: Install client modules
+      working-directory: ./client
+      run: npm install
     - name: Run server ESLint
       run: npm run lint
     - name: Run client ESLint
@@ -34,8 +35,13 @@ jobs:
       run: npm run lint
   test:
     runs-on: ubuntu-latest
-    needs: install
     steps:
+    - uses: actions/checkout@v2
+    - name: Install server modules
+      run: npm install
+    - name: Install client modules
+      working-directory: ./client
+      run: npm install
     - name: Run server tests
       run: npm run test
       env:
