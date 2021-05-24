@@ -17,4 +17,9 @@ app.use(cors());
 app.use('/api', routes);
 app.use(express.static('public'));
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// Avoid listening when running Jest
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}
+
+export default app;

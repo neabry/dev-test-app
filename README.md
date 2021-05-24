@@ -35,3 +35,7 @@ Running `npm start` in the root directory will then serve the built client folde
 In the root directory for linting server code: `npx eslint . --ext .js,.ts`
 
 In the `client` sub-directory for linting client code: `npx eslint . --ext .js,.ts,.jsx,.tsx`
+
+## Testing
+
+Run `npm run test` to run all server tests. You must have the YouTube API key configured from earlier for all tests to pass.

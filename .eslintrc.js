@@ -18,5 +18,6 @@ module.exports = {
     'prefer-default-export': 'off',
     'no-plusplus': 'off',
     'no-param-reassign': 'off',
+    'consistent-return': 'off',
   },
 };
