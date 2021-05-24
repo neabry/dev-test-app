@@ -4,6 +4,9 @@ on:
   - push
   - pull_request
 
+env:
+  SKIP_PREFLIGHT_CHECK: 'true'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -42,6 +45,9 @@ jobs:
     - name: Install client modules
       working-directory: ./client
       run: npm install
+    - name: Build client code
+      run: npm run build
+      working-directory: ./client
     - name: Run server tests
       run: npm run test
       env:
